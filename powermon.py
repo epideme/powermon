@@ -13,6 +13,7 @@ keeptrack=dict()
 esxserver = "esxservername"
 lastshutdown = "name_of_VSA"
 noshutdown = "name_of_nutserver"
+upsname = "name_of_UPS_in_nut"
 
 offlinecount=0
 onlinecount=0
@@ -20,7 +21,7 @@ togo=0
 alldown=0
 minruntime=600
 
-upsvars = client.GetUPSVars("R1500")
+upsvars = client.GetUPSVars(upsname)
 runtime = upsvars['battery.runtime']
 
 while int(runtime) > int(minruntime):
@@ -31,7 +32,7 @@ while int(runtime) > int(minruntime):
     print "Online. Runtime:", runtime
     sys.exit()
   time.sleep(10)
-  upsvars = client.GetUPSVars("R1500")
+  upsvars = client.GetUPSVars(upsname)
   runtime = upsvars['battery.runtime']
 
 while alldown == 0:
@@ -74,7 +75,7 @@ while alldown == 0:
   time.sleep(10);
 
 while onlinecount<3:
-  upsvars = client.GetUPSVars("R1500")
+  upsvars = client.GetUPSVars(upsname)
   print upsvars['ups.status']
   if upsvars['ups.status'] == "OL":
     onlinecount += 1
